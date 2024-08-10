@@ -1,18 +1,18 @@
 import streamlit as st
-from geopy.distance import distance
+from geopy.distance import geodesic
 from geopy.point import Point
 import random
 
 def random_coordinate_within_radius(lat, lon, radius):
-    # Generate a random distance within the radius
+    # Generate a random distance within the radius (in kilometers)
     random_distance = random.uniform(0, radius)
     
     # Generate a random bearing (angle in degrees)
     random_bearing = random.uniform(0, 360)
     
-    # Calculate the destination point
+    # Calculate the destination point using geodesic distance
     origin = Point(lat, lon)
-    destination = distance(kilometers=random_distance).destination(origin, random_bearing)
+    destination = geodesic(kilometers=random_distance).destination(origin, random_bearing)
     
     return destination.latitude, destination.longitude
 
@@ -33,4 +33,4 @@ if st.button('Generate Random Place'):
     # Provide a link to Google Maps with the coordinates
     google_maps_url = f"https://www.google.com/maps/search/?api=1&query={random_lat},{random_lon}"
     st.markdown(f"[View on Google Maps]({google_maps_url})")
-  
+    
